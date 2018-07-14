@@ -1,6 +1,6 @@
 [Plymouth Theme]
-Name=Tux4Ubuntu Theme
-Description=A theme that features the Tux himself, all dressed up for Ubuntu.
+Name=tux-plymouth-theme
+Description=A theme that features the Tux himself at boot and shutdown.
 ModuleName=script
 
 [script]

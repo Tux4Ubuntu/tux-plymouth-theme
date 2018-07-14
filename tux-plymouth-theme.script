@@ -1,38 +1,15 @@
 # tux.script - boot splash plugin
 #                                                   
-# Copyright (C) 2016 Tux4Ubuntu Initiative <http://tux4ubuntu.blogspot.com>
-#
-# Permission is hereby granted, free of charge, 
-# to any person obtaining a copy of this software and 
-# associated documentation files (the "Software"), to 
-# deal in the Software without restriction, including 
-# without limitation the rights to use, copy, modify, 
-# merge, publish, distribute, sublicense, and/or sell 
-# copies of the Software, and to permit persons to whom 
-# the Software is furnished to do so, 
-# subject to the following conditions:
-#
-# The above copyright notice and this permission notice 
-# shall be included in all copies or substantial portions of the Software.
-#
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, 
-# EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES 
-# OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
-# IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR 
-# ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, 
-# TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
-# SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-# 
-# Written and designed by: Tuxedo Joe <http://github.com/tuxedojoe>
-# for The Tux4Ubuntu Initiative <http://tux4ubuntu.blogspot.com>
-#
-# For CREDITS AND ATTRIBUTION see README 
+# For INSTALL INSTRUCTIONS, CREDITS AND ATTRIBUTION see README.md
+# The theme is licensed under GNU GPL v3 read more in LICENSE
 
 logo.image = Image("tux.png");
 Window.SetBackgroundTopColor(0, 0, 0);
 Window.SetBackgroundBottomColor(0, 0, 0);
 
 if (Plymouth.GetMode () == "shutdown")
+# To increase the possibility of certain shutdown messages we do a little math
+
 {
   a = Math.Random ();
   if (a <= 0.5)
@@ -40,20 +17,20 @@ if (Plymouth.GetMode () == "shutdown")
       if (a <= 0.125)
         if (a <= 0.0625)
           if (a <= 0.03125)
-            logo.image = Image("cache/00001");
+            logo.image = Image("img/00001");
           else
-            logo.image = Image("cache/10000");
+            logo.image = Image("img/10000");
         else
-          logo.image = Image("cache/00010");
+          logo.image = Image("img/00010");
 
       else
-        logo.image = Image("cache/00100");
+        logo.image = Image("img/00100");
 
     else
-      logo.image = Image("cache/01000");
+      logo.image = Image("img/01000");
   
   else
-    logo.image = Image("cache/10000");
+    logo.image = Image("img/10000");
 }
 
 
