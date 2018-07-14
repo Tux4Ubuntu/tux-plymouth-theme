@@ -5,7 +5,7 @@ ModuleName=script
 
 [script]
 ImageDir=/usr/share/plymouth/themes/tux-plymouth-theme
-ScriptFile=/usr/share/plymouth/themes/tux-plymouth-theme/tux.script
+ScriptFile=/usr/share/plymouth/themes/tux-plymouth-theme/tux-plymouth-theme.script
 
 [script-env-vars]
 example_env_var=example env var value
