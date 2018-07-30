@@ -26,6 +26,8 @@ CREDITS AND ATTRIBUTION
         Charlie Brej   <cbrej@cs.man.ac.uk>
         Documentation and instructions where found here: <https://wiki.ubuntu.com/Artwork/Documentation/Plymouth>
         and here: <https://www.freedesktop.org/wiki/Software/Plymouth/Scripts/>
+        With additions from Ubuntu 18.04 LTS plymouth logo, created by:
+        Alberto Milone <alberto.milone@canonical.com>
 
     TUX ILLUSTRATION by:
         Larry Ewing, at: http://isc.tamu.edu/~lewing/linux/
