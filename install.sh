@@ -14,25 +14,41 @@ function install {
             Yes ) 
                 printf "\033c"
                 header "Adding Tux as BOOT LOGO" "$1"
-                check_sudo
+                
+                # Here we check if OS is supported
+                # More info on other OSes regarding plymouth: http://brej.org/blog/?p=158
+                if [ -d "/usr/share/plymouth/themes/" ]; then
+                # Control will enter here if $DIRECTORY exists.
+                    check_sudo
+                    sudo cp -r src /usr/share/plymouth/themes/
+                    sudo mv /usr/share/plymouth/themes/src/ /usr/share/plymouth/themes/tux-plymouth-theme/
 
-                sudo cp -r src $plymouth_dir/themes/tux-plymouth-theme
-                sudo 
+                    # Then we can add it to default.plymouth and update update-initramfs accordingly
+                    sudo update-alternatives --install /usr/share/plymouth/themes/default.plymouth default.plymouth /usr/share/plymouth/themes/tux-plymouth-theme/tux-plymouth-theme.plymouth 100;
+                    printf "\033c"
+                    header "Adding Tux as BOOT LOGO" "$1"
+                    echo "Below you will see a list with all themes available to choose tux in the "
+                    echo "Plymouth menu next (if you want Tux that is ;)";
+                    echo ""
+                    read -n1 -r -p "Press any key to continue..." key
+                    sudo update-alternatives --config default.plymouth;
+                    echo "Updating initramfs. This could take a while."
+                    sudo update-initramfs -u;
+                    printf "\033c"
+                    header "Adding Tux as BOOT LOGO" "$1"
+                    echo "Tux successfully moved in as your new Boot Logo."
 
-                # Then we can add it to default.plymouth and update update-initramfs accordingly
-                sudo update-alternatives --install $plymouth_dir/themes/default.plymouth default.plymouth $plymouth_dir/themes/tux-plymouth-theme/tux-plymouth-theme.plymouth 100;
-                printf "\033c"
-                header "Adding Tux as BOOT LOGO" "$1"
-                echo "Below you will see a list with all themes available to choose tux in the "
-                echo "Plymouth menu next (if you want Tux that is ;)";
-                echo ""
-                read -n1 -r -p "Press any key to continue..." key
-                sudo update-alternatives --config default.plymouth;
-                echo "Updating initramfs. This could take a while."
-                sudo update-initramfs -u;
-                printf "\033c"
-                header "Adding Tux as BOOT LOGO" "$1"
-                echo "Tux successfully moved in as your new Boot Logo."
+
+                else
+                    printf "\033c"
+                    header "Adding Tux as BOOT LOGO" "$1"
+                    printf "${RED}COULDN'T FIND PLYMOUTH THEMES FOLDER!${NC}\n"   
+                    echo "If rEFInd is installed, check out our manual instructions at:"
+                    echo "https://tux4ubuntu.org"
+                    echo ""
+                    echo "Otherwise, read the instructions more carefully before continuing :)"
+                fi
+                
                 break;;
             No )
                 printf "\033c"
