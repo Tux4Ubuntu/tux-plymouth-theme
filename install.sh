@@ -1,11 +1,13 @@
 # Set global values
 STEPCOUNTER=false # Changes to true if user choose to install Tux Everywhere
-RED='\033[0;31m'
+YELLOW='\033[1;33m'
+LIGHT_GREEN='\033[1;32m'
+LIGHT_RED='\033[1;31m'
 NC='\033[0m' # No Color
 
 function install {
     printf "\033c"
-    header "Adding Tux as BOOT LOGO" "$1"
+    header "TUX PLYMOUTH THEME" "$1"
     echo "Are you ready to have Tux Plymouth Theme installed?"
     echo ""
     echo "(Type 1 or 2, then press ENTER)"            
@@ -13,7 +15,7 @@ function install {
         case $yn in
             Yes ) 
                 printf "\033c"
-                header "Adding Tux as BOOT LOGO" "$1"
+                header "TUX PLYMOUTH THEME" "$1"
                 
                 # Here we check if OS is supported
                 # More info on other OSes regarding plymouth: http://brej.org/blog/?p=158
@@ -26,7 +28,7 @@ function install {
                     # Then we can add it to default.plymouth and update update-initramfs accordingly
                     sudo update-alternatives --install /usr/share/plymouth/themes/default.plymouth default.plymouth /usr/share/plymouth/themes/tux-plymouth-theme/tux-plymouth-theme.plymouth 100;
                     printf "\033c"
-                    header "Adding Tux as BOOT LOGO" "$1"
+                    header "TUX PLYMOUTH THEME" "$1"
                     echo "Below you will see a list with all themes available to choose tux in the "
                     echo "Plymouth menu next (if you want Tux that is ;)";
                     echo ""
@@ -35,14 +37,14 @@ function install {
                     echo "Updating initramfs. This could take a while."
                     sudo update-initramfs -u;
                     printf "\033c"
-                    header "Adding Tux as BOOT LOGO" "$1"
+                    header "TUX PLYMOUTH THEME" "$1"
                     echo "Tux successfully moved in as your new Boot Logo."
 
 
                 else
                     printf "\033c"
-                    header "Adding Tux as BOOT LOGO" "$1"
-                    printf "${RED}COULDN'T FIND PLYMOUTH THEMES FOLDER!${NC}\n"   
+                    header "TUX PLYMOUTH THEME" "$1"
+                    printf "${LIGHT_RED}COULDN'T FIND PLYMOUTH THEMES FOLDER!${NC}\n"   
                     echo "If rEFInd is installed, check out our manual instructions at:"
                     echo "https://tux4ubuntu.org"
                     echo ""
@@ -52,8 +54,8 @@ function install {
                 break;;
             No )
                 printf "\033c"
-                header "Adding Tux as BOOT LOGO" "$1"
-                echo "It's not that dangerous though! Feel free to try when you're ready. Tux will be waiting."
+                header "TUX PLYMOUTH THEME" "$1"
+                echo "TUX quickly hides his fish and smiles at you."
             break;;
         esac
     done
@@ -63,22 +65,22 @@ function install {
 
 function uninstall { 
     printf "\033c"
-    header "Removing Tux as BOOT LOGO" "$1"
-    echo "Really sure you want to uninstall Tux as your boot logo?"
+    header "TUX PLYMOUTH THEME" "$1"
+    printf "${LIGHT_RED}Really sure you want to uninstall TUX BOOT THEME from your boot screen (Plymouth)?${NC}\n"
     echo ""
     echo "(Type 1 or 2, then press ENTER)"            
     select yn in "Yes" "No"; do
         case $yn in
             Yes ) 
                 printf "\033c"
-                header "Uninstalling Tux as BOOT LOGO" "$1"
+                header "TUX PLYMOUTH THEME" "$1"
                 # uninstall_not_found "plymouth-themes xclip"
                 folder_to_delete=$plymouth_dir/themes/tux-plymouth-theme
                 if [ -f $folder_to_delete ] ; then
                     sudo rm -r $folder_to_delete
                 fi
                 printf "\033c"
-                header "Removing Tux as BOOT LOGO" "$1"
+                header "TUX PLYMOUTH THEME" "$1"
                 echo "Below you will see a list with all themes available, choose a new theme to view"
                 echo "on boot when Tux is removed."
                 echo ""
@@ -87,12 +89,12 @@ function uninstall {
                 echo "Updating initramfs. This could take a while."
                 sudo update-initramfs -u;
                 printf "\033c"
-                header "Removing Tux as BOOT LOGO" "$1"
+                header "TUX PLYMOUTH THEME" "$1"
                 echo "Tux is successfully removed from your boot."
                 break;;
             No )
                 printf "\033c"
-                header "Removing Tux as BOOT LOGO" "$1"
+                header "TUX PLYMOUTH THEME" "$1"
                 echo "Awesome! Tux smiles and gives you a pat on the shoulder."
             break;;
         esac
@@ -115,10 +117,10 @@ function header {
     ch=' '
     echo "╔══════════════════════════════════════════════════════════════════════════════╗"
     printf "║"
-    printf " $1"
+    printf " ${YELLOW}$1${NC}"
     printf '%*s' "$len" | tr ' ' "$ch"
     if [ $STEPCOUNTER = true ]; then
-        printf "Step "$2
+        printf "Step "${LIGHT_GREEN}$2${NC}
         printf "/7 "
     fi
     printf "║\n"
@@ -130,45 +132,47 @@ function check_sudo {
     if sudo -n true 2>/dev/null; then 
         :
     else
-        echo "Oh, and Tux will need sudo rights to copy and install everything, so he'll ask" 
-        echo "about that soon."
-        echo ""
+        printf "${YELLOW}Oh, TUX will ask below about sudo rights to copy and install everything...${NC}\n\n"
     fi
 }
 
 function goto_tux4ubuntu_org {
     echo ""
-    echo "Launching website in your favourite browser."
+    printf "${YELLOW}Launching website in your favourite browser...${NC}\n"
     x-www-browser https://tux4ubuntu.org/ &
-    read -n1 -r -p "Press any key to continue..." key
     echo ""
+    sleep 2
+    read -n1 -r -p "Press any key to continue..." key
 }
 
 while :
 do
     clear
+    if [ -z "$1" ]; then
+        :
+    else
+        STEPCOUNTER=true
+    fi
+    header "TUX PLYMOUTH THEME" "$1"
     # Menu system as found here: http://stackoverflow.com/questions/20224862/bash-script-always-show-menu-after-loop-execution
-    cat<<EOF    
-╔══════════════════════════════════════════════════════════════════════════════╗
-║ TUX REFIND THEME ver 1.0                                   © 2018 Tux4Ubuntu ║
-║ Let's Bring Tux to Ubuntu                             https://tux4ubuntu.org ║
-╠══════════════════════════════════════════════════════════════════════════════╣
-║                                                                              ║
-║   What do you wanna do today? (Type in one of the following numbers)         ║
-║                                                                              ║
-║   1) Read manual instructions                  - Open up tux4ubuntu.org      ║
-║   2) Install                                   - Install the theme           ║
-║   3) Uninstall                                 - Uninstall the theme         ║
-║   ------------------------------------------------------------------------   ║
-║   Q) Quit                                      - Quit the installer (Ctrl+C) ║
-║                                                                              ║
-╚══════════════════════════════════════════════════════════════════════════════╝
+    cat<<EOF                                                       
+Type one of the following numbers/letters:         
+                                                                               
+1) Read Instructions                      - Open up tux4ubuntu.org      
+2) Install                                - Install Boot Logo theme          
+3) Uninstall                              - Uninstall Boot Logo theme       
+--------------------------------------------------------------------------------   
+Q) Skip                                   - Quit Boot Logo theme installer 
+
+(Press Control + C to quit the installer all together)
 EOF
     read -n1 -s
     case "$REPLY" in
     "1")    goto_tux4ubuntu_org;;
     "2")    install $1;;
     "3")    uninstall $1;;
+    "S")    exit                      ;;
+    "s")    exit                      ;;
     "Q")    exit                      ;;
     "q")    exit                      ;;
      * )    echo "invalid option"     ;;
