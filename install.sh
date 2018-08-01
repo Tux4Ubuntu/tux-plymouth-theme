@@ -8,13 +8,13 @@ NC='\033[0m' # No Color
 function install {
     printf "\033c"
     header "TUX PLYMOUTH THEME" "$1"
-    echo "Are you ready to have Tux Plymouth Theme installed?"
+    printf "${LIGHT_GREEN}Are you ready to have TUX Boot Logo Theme (a Plymouth theme) installed?${NC}\n"
     echo ""
     echo "(Type 1 or 2, then press ENTER)"            
     select yn in "Yes" "No"; do
         case $yn in
             Yes ) 
-                printf "\033c"
+                #printf "\033c"
                 header "TUX PLYMOUTH THEME" "$1"
                 
                 # Here we check if OS is supported
@@ -22,29 +22,31 @@ function install {
                 if [ -d "/usr/share/plymouth/themes/" ]; then
                 # Control will enter here if $DIRECTORY exists.
                     check_sudo
+                    echo $PWD
                     sudo cp -r src /usr/share/plymouth/themes/
-                    sudo mv /usr/share/plymouth/themes/src/ /usr/share/plymouth/themes/tux-plymouth-theme/
-
+                    sudo rsync -a /usr/share/plymouth/themes/src/ /usr/share/plymouth/themes/tux-plymouth-theme/
+                    #sudo mv /usr/share/plymouth/themes/src/ /usr/share/plymouth/themes/tux-plymouth-theme/
+                    sudo rm -r /usr/share/plymouth/themes/src
                     # Then we can add it to default.plymouth and update update-initramfs accordingly
                     sudo update-alternatives --install /usr/share/plymouth/themes/default.plymouth default.plymouth /usr/share/plymouth/themes/tux-plymouth-theme/tux-plymouth-theme.plymouth 100;
-                    printf "\033c"
+                    #printf "\033c"
                     header "TUX PLYMOUTH THEME" "$1"
-                    echo "Below you will see a list with all themes available to choose tux in the "
-                    echo "Plymouth menu next (if you want Tux that is ;)";
+                    printf "${YELLOW}Below you will see a list with all themes available to choose tux in the\n"
+                    printf "Plymouth menu next (if you want Tux that is ;)${NC}\n"
                     echo ""
                     read -n1 -r -p "Press any key to continue..." key
                     sudo update-alternatives --config default.plymouth;
-                    echo "Updating initramfs. This could take a while."
+                    printf "${YELLOW}Updating initramfs. This could take a while.${NC}\n"
                     sudo update-initramfs -u;
-                    printf "\033c"
+                    #printf "\033c"
                     header "TUX PLYMOUTH THEME" "$1"
-                    echo "Tux successfully moved in as your new Boot Logo."
+                    printf "${LIGHT_GREEN}TUX successfully moved in as your new Boot Logo.${NC}\n"
 
 
                 else
                     printf "\033c"
                     header "TUX PLYMOUTH THEME" "$1"
-                    printf "${LIGHT_RED}COULDN'T FIND PLYMOUTH THEMES FOLDER!${NC}\n"   
+                    printf "${LIGHT_RED}Couldn't find the Plymouth themes folder.${NC}\n"   
                     echo "If rEFInd is installed, check out our manual instructions at:"
                     echo "https://tux4ubuntu.org"
                     echo ""
@@ -61,6 +63,7 @@ function install {
     done
     echo ""
     read -n1 -r -p "Press any key to continue..." key
+    exit
 }
 
 function uninstall { 
@@ -91,6 +94,7 @@ function uninstall {
                 printf "\033c"
                 header "TUX PLYMOUTH THEME" "$1"
                 echo "Tux is successfully removed from your boot."
+                printf "${LIGHT_GREEN}TUX Boot Logo theme is successfully uninstalled.${NC}\n"
                 break;;
             No )
                 printf "\033c"
@@ -101,6 +105,7 @@ function uninstall {
     done
     echo ""
     read -n1 -r -p "Press any key to continue..." key
+    exit
 }
 
 function header {
@@ -139,10 +144,11 @@ function check_sudo {
 function goto_tux4ubuntu_org {
     echo ""
     printf "${YELLOW}Launching website in your favourite browser...${NC}\n"
-    x-www-browser https://tux4ubuntu.org/ &
+    x-www-browser https://tux4ubuntu.org/portfolio/plymouth &
     echo ""
     sleep 2
     read -n1 -r -p "Press any key to continue..." key
+    exit
 }
 
 while :
@@ -157,10 +163,11 @@ do
     # Menu system as found here: http://stackoverflow.com/questions/20224862/bash-script-always-show-menu-after-loop-execution
     cat<<EOF                                                       
 Type one of the following numbers/letters:         
-                                                                               
-1) Read Instructions                      - Open up tux4ubuntu.org      
-2) Install                                - Install Boot Logo theme          
-3) Uninstall                              - Uninstall Boot Logo theme       
+
+1) Install                                - Install Boot Logo theme          
+2) Uninstall                              - Uninstall Boot Logo theme
+--------------------------------------------------------------------------------
+3) Read Instructions                      - Open up tux4ubuntu.org      
 --------------------------------------------------------------------------------   
 Q) Skip                                   - Quit Boot Logo theme installer 
 
@@ -168,9 +175,9 @@ Q) Skip                                   - Quit Boot Logo theme installer
 EOF
     read -n1 -s
     case "$REPLY" in
-    "1")    goto_tux4ubuntu_org;;
-    "2")    install $1;;
-    "3")    uninstall $1;;
+    "1")    install $1;;
+    "2")    uninstall $1;;
+    "3")    goto_tux4ubuntu_org;;
     "S")    exit                      ;;
     "s")    exit                      ;;
     "Q")    exit                      ;;
