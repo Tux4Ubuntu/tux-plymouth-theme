@@ -42,7 +42,7 @@ function install {
         printf "\033c"
         header "TUX PLYMOUTH THEME" "$1"
         printf "${LIGHT_RED}Couldn't find the Plymouth themes folder.${NC}\n"   
-        echo "If rEFInd is installed, check out our manual instructions at:"
+        echo "Check out our website for manual instructions where you can comment questions and solutions:"
         echo "https://tux4ubuntu.org"
         echo ""
         echo "Otherwise, read the instructions more carefully before continuing :)"
