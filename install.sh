@@ -56,7 +56,8 @@ function install {
 function uninstall { 
     printf "\033c"
     header "TUX PLYMOUTH THEME" "$1"
-    printf "${LIGHT_RED}Really sure you want to uninstall TUX BOOT THEME from your boot screen (Plymouth)?${NC}\n"
+    printf "${LIGHT_RED}Really sure you want to uninstall TUX BOOT THEME from your boot screen"
+    printf "(Plymouth)?${NC}\n"
     echo ""
     echo "(Type 1 or 2, then press ENTER)"            
     select yn in "Yes" "No"; do
