@@ -26,8 +26,8 @@ function install {
         sudo update-alternatives --install /usr/share/plymouth/themes/default.plymouth default.plymouth /usr/share/plymouth/themes/tux-plymouth-theme/tux-plymouth-theme.plymouth 100;
         printf "\033c"
         header "TUX PLYMOUTH THEME" "$1"
-        printf "${YELLOW}Below you will see a list with all themes available to choose tux in the\n"
-        printf "Plymouth menu next (if you want Tux that is ;)${NC}\n"
+        printf "${YELLOW}Below you will see a list with all themes available to choose TUX in the\n"
+        printf "Plymouth menu next (if you want TUX that is ;)${NC}\n"
         echo ""
         read -n1 -r -p "Press any key to continue..." key
         sudo update-alternatives --config default.plymouth;
@@ -37,11 +37,13 @@ function install {
         header "TUX PLYMOUTH THEME" "$1"
         printf "${LIGHT_GREEN}TUX successfully moved in as your new Boot Logo.${NC}\n"
         echo ""
-        printf "${YELLOW}Would you like to change to purple lockscreen to black to better match your new Boot Logo? (BETA)${NC}\n"
+        printf "${YELLOW}Would you like to change to Purple and Orange lockscreen to Black and Grey (to better match\nyour new Boot Logo? (BETA)${NC}\n"
         select yn in "Yes" "No"; do
             case $yn in
                 Yes ) echo "Making some of the purple go away."
-                    sudo sed -i 's_background: #2c001e url(resource:///org/gnome/shell/theme/noise-texture.png)_background: #000_g' /usr/share/gnome-shell/theme/ubuntu.css
+                    sudo sed -i 's_background: #2c001e url(resource:///org/gnome/shell/theme/noise-texture.png);_background: #000;_g' /usr/share/gnome-shell/theme/ubuntu.css
+                    sudo sed -i 's_background-color: #dd4814;_background-color: #2f343f;_g' /usr/share/gnome-shell/theme/ubuntu.css
+                    sudo sed -i 's_border-right: 2px solid #dd4814;_border-right: 2px solid #2f343f;_g' /usr/share/gnome-shell/theme/ubuntu.css
                     printf "${LIGHT_GREEN}Done.${NC}\n"
                     break;;
                 No ) echo "Purple stays."
@@ -77,14 +79,10 @@ function uninstall {
             Yes ) 
                 printf "\033c"
                 header "TUX PLYMOUTH THEME" "$1"
-                # uninstall_not_found "plymouth-themes xclip"
-                folder_to_delete=$plymouth_dir/themes/tux-plymouth-theme
-                if [ -f $folder_to_delete ] ; then
-                    sudo rm -r $folder_to_delete
-                fi
+                sudo rm -rf /usr/share/plymouth/themes/tux-plymouth-theme
                 printf "\033c"
                 header "TUX PLYMOUTH THEME" "$1"
-                echo "Below you will see a list with all themes available, choose a new theme to view"
+                echo "If you have more than one theme, choose below which one you want as default."
                 echo "on boot now when Tux is removed."
                 echo ""
                 read -n1 -r -p "Press any key to continue..." key
@@ -92,6 +90,9 @@ function uninstall {
                 echo "Updating initramfs. This could take a while."
                 sudo update-initramfs -u;
                 printf "\033c"
+                sudo sed -i 's_background: #000;_background: #2c001e url(resource:///org/gnome/shell/theme/noise-texture.png);_g' /usr/share/gnome-shell/theme/ubuntu.css
+                sudo sed -i 's_background-color: #2f343f;_background-color: #dd4814;_g' /usr/share/gnome-shell/theme/ubuntu.css
+                sudo sed -i 's_border-right: 2px solid #2f343f;_border-right: 2px solid #dd4814;_g' /usr/share/gnome-shell/theme/ubuntu.css
                 header "TUX PLYMOUTH THEME" "$1"
                 echo "Tux is successfully removed from your boot."
                 printf "${LIGHT_GREEN}TUX Boot Logo theme is successfully uninstalled.${NC}\n"
