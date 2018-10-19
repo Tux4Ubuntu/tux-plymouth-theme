@@ -36,6 +36,18 @@ function install {
         printf "\033c"
         header "TUX PLYMOUTH THEME" "$1"
         printf "${LIGHT_GREEN}TUX successfully moved in as your new Boot Logo.${NC}\n"
+        echo ""
+        printf "${YELLOW}Would you like to change to purple lockscreen to black to better match your new Boot Logo? (BETA)${NC}\n"
+        select yn in "Yes" "No"; do
+            case $yn in
+                Yes ) echo "Making some of the purple go away."
+                    sudo sed -i 's_background: #2c001e url(resource:///org/gnome/shell/theme/noise-texture.png)_background: #000_g' /usr/share/gnome-shell/theme/ubuntu.css
+                    printf "${LIGHT_GREEN}Done.${NC}\n"
+                    break;;
+                No ) echo "Purple stays."
+                    break;;
+            esac
+        done
 
 
     else
