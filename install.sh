@@ -37,7 +37,7 @@ function install {
         header "TUX PLYMOUTH THEME" "$1"
         printf "${LIGHT_GREEN}TUX successfully moved in as your new Boot Logo.${NC}\n"
         echo ""
-        printf "${YELLOW}Would you like to change to Purple and Orange lockscreen to Black and Grey (to\nbetter match your new Boot Logo? (BETA)${NC}\n"
+        printf "${YELLOW}Would you like to change the purple and orange in the lockscreen to black and grey (to\nbetter match your new Boot Logo? (BETA)${NC}\n"
         select yn in "Yes" "No"; do
             case $yn in
                 Yes ) echo "Making some of the purple go away."
