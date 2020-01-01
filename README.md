@@ -15,7 +15,7 @@
 INSTALL INSTRUCTIONS
 
     For the latest version and install instructions visit:
-    <http://tux4ubuntu.org>
+    [tux4ubuntu](http://tux4ubuntu.org)
 
 
 CREDITS AND ATTRIBUTION
